@@ -1,0 +1,16 @@
+.card {
+    width: 277px;
+    height: 277px;
+    background-color: #F6AA1C;
+    border-radius: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardText {
+    color: #FFFFFF;
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+}

@@ -1,0 +1,38 @@
+.background {
+  min-width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FA1900 0%, #FAB700 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardList {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.textColor {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.italic {
+  font-style: italic;
+  font-size: 25px;
+  color: #FFFFFF;
+  font-weight: 100;
+}
+
+.headerFont {
+  font-size: 60px;
+  font-weight: 700;
+}
