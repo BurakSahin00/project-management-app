@@ -5,10 +5,10 @@ import GetStartedButton from './components/get-started-button/GetStartedButton';
 import path from 'path';
 
 const cards = [
-  { title: 'About Application', path: '/AboutApplication' },
-  { title: 'How To Use?', path: '/HowToUse' },
-  { title: 'FAQ', path: '/FAQ' },
-  { title: 'Contact Us', path: '/ContactUs' }
+  { title: 'About Application', path: '/navigation/AboutApplication' },
+  { title: 'How To Use?', path: '/navigation/HowToUse' },
+  { title: 'FAQ', path: '/navigation/FAQ' },
+  { title: 'Contact Us', path: '/navigation/ContactUs' }
 ];
 
 const Home: React.FC = () => {
