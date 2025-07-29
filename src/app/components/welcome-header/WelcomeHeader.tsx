@@ -4,6 +4,7 @@ import React from 'react'
 import { usePathname } from 'next/navigation'
 import WelcomeHeaderButton from '../welcome-header-button/WelcomeHeaderButton'
 import GetStartedHeaderButton from '../get-started-button/GetStartedHeaderButton'
+import BackButton from '../back-button/BackButton'
 import styles from './welcome-header.module.css'
 import Link from 'next/link'
 
@@ -20,6 +21,9 @@ const WelcomeHeader: React.FC = () => {
     const pathname = usePathname();
     return (
         <div className={styles.headerContainer}>
+            <Link href='/'>
+                <BackButton />
+            </Link>
             {
                 HeaderButtons.map((button, index) => (
                     <Link href={button.path} key={index}>
