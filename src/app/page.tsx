@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './page.module.css'
 import WelcomeCard from './components/welcome-cards/WelcomeCard'
 import GetStartedButton from './components/get-started-button/GetStartedButton';
-import path from 'path';
 
 const cards = [
   { title: 'About Application', path: '/navigation/AboutApplication' },

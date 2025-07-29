@@ -1,0 +1,21 @@
+.button {
+  background-color: #F6AA1C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 122px;
+  width: 252px;
+  cursor: pointer;
+}
+
+.headerText {
+  font-size: 20px;
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+}
+
+.active {
+    display: flex;
+    border-bottom: #ffffff 2px solid;
+}

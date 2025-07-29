@@ -1,4 +1,5 @@
 'use client'
+
 import React from "react";
 import WelcomeHeader from "../components/welcome-header/WelcomeHeader";
 

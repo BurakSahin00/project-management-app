@@ -3,8 +3,10 @@
 import React from 'react'
 import { usePathname } from 'next/navigation'
 import WelcomeHeaderButton from '../welcome-header-button/WelcomeHeaderButton'
+import GetStartedHeaderButton from '../get-started-button/GetStartedHeaderButton'
 import styles from './welcome-header.module.css'
 import Link from 'next/link'
+
 
 const HeaderButtons = [
     { title: 'About Application', path: '/navigation/AboutApplication' },
@@ -28,6 +30,11 @@ const WelcomeHeader: React.FC = () => {
                     </Link>
                 ))
             }
+            <Link href="/navigation/GetStarted">
+                <GetStartedHeaderButton
+                    active={pathname === '/navigation/GetStarted'}
+                />
+            </Link>
         </div>
     )
 }
