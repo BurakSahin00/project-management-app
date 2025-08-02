@@ -3,13 +3,32 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: 2px;
     width: 40%;
     height: 80%;
-    padding: 20px;
-    background-color: #FFFFFF;
+    padding: 15px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     border-radius: 20px;
+}
+
+.bgPrimary {
+    background-color: #fe4221;
+}
+
+.bgWhite {
+    background-color: #FFFFFF;
+}
+
+.cWhite {
+    color: #FFFFFF;
+}
+
+.cBlack {
+    color: #000000;
+}
+
+.wrapper {
+    transform: translate(-40px, 0);
 }
 
 .mainText{
@@ -24,6 +43,7 @@
 }
 
 .master {
+    position: relative;
     display: flex;
     flex-direction: row;
     height: 100vh;
@@ -74,8 +94,6 @@
 .button {
     width: 300px;
     height: 50px;
-    background-color: #fe4221;
-    color: white;
     border: none;
     border-radius: 20px;
     cursor: pointer;
