@@ -1,0 +1,22 @@
+.sideBarElement {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.sideBarElement:hover {
+    background: #f0f0f0;
+}
+
+.sideBarElement.active {
+    background: #0070f3;
+    color: white;
+}
+
+.name {
+    margin-left: 12px;
+    font-weight: 500;
+}
