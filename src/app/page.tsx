@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './page.module.css'
 import WelcomeCard from './components/welcome-cards/WelcomeCard'
 import GetStartedButton from './components/get-started-button/GetStartedButton';
+import Link from 'next/link';
 
 const cards = [
   { title: 'About Application', path: '/navigation/AboutApplication' },
@@ -22,7 +23,9 @@ const Home: React.FC = () => {
           <WelcomeCard key={index} title={card.title} path={card.path} />
         ))}
       </div>
-      <GetStartedButton />
+      <Link href='/navigation/GetStarted'>
+        <GetStartedButton />
+      </Link>
       <h5 className={styles.italic}>All Rights Reserved</h5>
     </div>
   )

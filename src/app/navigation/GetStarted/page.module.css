@@ -19,6 +19,10 @@
     margin-bottom: 30px;
 }
 
+.subText {
+    font-size: 16px;
+}
+
 .master {
     display: flex;
     flex-direction: row;
@@ -48,6 +52,7 @@
     color: #bebebe;
 }
 
+
 .inputLabel {
     position: relative;
     display: flex;
@@ -76,4 +81,8 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
+}
+
+.image{
+    height: 80%;
 }

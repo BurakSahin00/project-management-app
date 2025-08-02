@@ -11,7 +11,7 @@ const GetStarted: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.mainText}>
           <h2>Login and Start</h2>
-          <p>Login to your account to start using our services.</p>
+          <p className={styles.subText}>Login to your account to start using our services.</p>
         </div>
         <div className={styles.inputLabel}>
           <IoMail className={styles.icon} />
@@ -22,6 +22,11 @@ const GetStarted: React.FC = () => {
           <input className={styles.inputBox} type="password" name="Password" id="password" placeholder='Password' required />
         </div>
         <input className={styles.button} type="button" value="Login" />
+      </div>
+      <div className={styles.container}>
+        <h2>Don't You Have an Account</h2>
+        <img className={styles.image} src="/login-bro.svg" alt="" />
+        <input className={styles.button} type="button" value="Sign Up" />
       </div>
     </div>
   )
