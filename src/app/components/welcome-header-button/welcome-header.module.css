@@ -1,5 +1,5 @@
 .welcomeHeaderButton {
-  background-color: #fe4221;
+  background-color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,11 +11,12 @@
 .headerText {
   font-size: 20px;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--white);
   text-align: center;
 }
 
 .active {
     display: flex;
-    border-bottom: #ffffff 2px solid;
+    background-color: var(--secondary);
+    color: var(--white);
 }

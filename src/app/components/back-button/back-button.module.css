@@ -1,5 +1,5 @@
 .button {
-  background-color: #fe4221;
+  background-color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,6 +9,6 @@
 }
 
 .icon {
-  color: #ffffff;
+  color: var(--foreground);
   font-size: 50px;
 }

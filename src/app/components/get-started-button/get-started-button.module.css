@@ -4,8 +4,8 @@
     height: 75px;
     align-items: center;
     justify-content: center;
-    background-color: #F6AA1C;
-    color: #FFFFFF;
+    background-color: var(--primary);
+    color: var(--foreground);
     font-size: 25px;
     font-weight: 600;
     border-radius: 23px;

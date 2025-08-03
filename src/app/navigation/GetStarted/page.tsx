@@ -3,8 +3,6 @@ import styles from './page.module.css'
 import { IoMail } from "react-icons/io5";
 import { RiLockPasswordFill } from "react-icons/ri";
 
-
-
 const GetStarted: React.FC = () => {
   return (
     <div className={styles.master}>

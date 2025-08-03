@@ -12,19 +12,19 @@
 }
 
 .bgPrimary {
-    background-color: #fe4221;
+    background-color: var(--primary);
 }
 
 .bgWhite {
-    background-color: #FFFFFF;
+    background-color: var(--white);
 }
 
 .cWhite {
-    color: #FFFFFF;
+    color: var(--white);
 }
 
 .cBlack {
-    color: #000000;
+    color: var(--black);
 }
 
 .wrapper {

@@ -5,9 +5,10 @@ type SideBarElementProps = {
     name: string;
     icon: React.ReactNode;
     active: boolean;
+    altElements?: String[];
 }
 
-const SideBarElement: React.FC<SideBarElementProps> = ({ name, icon, active }) => {
+const SideBarElement: React.FC<SideBarElementProps> = ({ name, icon, active, altElements }) => {
   return (
     <div className={`${styles.sideBarElement} ${active ? styles.active : ''}`}>
         {icon}

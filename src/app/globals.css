@@ -1,12 +1,24 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f9fa;
+  --foreground: #222831;
+  --primary: #00adb5;
+  --secondary: #393e46;
+  --success: #4caf50;
+  --warning: #ffb347;
+  --error: #ff6f61;
+  --white: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #f8f9fa;
+  --foreground: #222831;
+  --primary: #00adb5;
+  --secondary: #393e46;
+  --success: #4caf50;
+  --warning: #ffb347;
+  --error: #ff6f61;
+  --white: #ffffff;
   }
 }
 

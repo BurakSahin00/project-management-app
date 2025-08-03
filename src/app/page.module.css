@@ -1,7 +1,7 @@
 .background {
   min-width: 100vw;
   min-height: 100vh;
-  background: linear-gradient(135deg, #FA1900 0%, #FAB700 100%);
+  background-color : var(--background);
   display: flex;
   flex-direction: column;
   gap: 38px;
@@ -18,7 +18,7 @@
 }
 
 .textColor {
-  color: #fff;
+  color: var(--foreground);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +28,7 @@
 .italic {
   font-style: italic;
   font-size: 25px;
-  color: #FFFFFF;
+  color: var(--foreground);
   font-weight: 100;
 }
 

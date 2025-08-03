@@ -1,5 +1,5 @@
 .button {
-  background-color: #F6AA1C;
+  background-color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,5 +17,6 @@
 
 .active {
     display: flex;
-    border-bottom: #ffffff 2px solid;
+    background-color: var(--secondary);
+    color: var(--foreground);
 }
