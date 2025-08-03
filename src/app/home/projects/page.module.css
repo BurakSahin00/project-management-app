@@ -1,0 +1,7 @@
+.projectContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Her satırda 3 nesne */
+    gap: 16px; /* Kartlar arası boşluk */
+    padding: 16px;
+    justify-items: center;
+}

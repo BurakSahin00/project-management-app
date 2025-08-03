@@ -1,0 +1,56 @@
+.projectCard {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    height: 400px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.projectCard h3 {
+    font-size: 18px;
+}
+
+.projectCard h4 {
+    font-size: 14px;
+}
+
+.projectCard h5 {
+    margin: 8px 0;
+    font-size: 1em;
+}
+
+.projectCard p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.techStack {
+    margin-top: 8px;
+    font-size: 0.9em;
+    padding: 12px;
+}
+
+.techStack ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+}
+
+.techStack li {
+    display: inline-block;
+    list-style-type: none;
+    font-size: 0.8em   ;
+    padding: 4px 12px;
+    border: solid 1px #989898;
+    border-radius: 20px;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+    margin: 4px 0;
+}
