@@ -9,24 +9,19 @@ export type ProjectCardProps = {
     stack: string[];   
     startDate: string;
     endDate: string;
-    cardColor?: string; // Optional prop for card background color  
+    cardColor?: string; // Kart arka plan rengi
+    image?: string;     // Kart fotoğrafı (opsiyonel)
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({  name, description, status, startDate, endDate, cardColor, stack }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ name, cardColor, image }) => {
   return (
-    <div className={styles.projectCard} style={{ backgroundColor: cardColor || '#f5f5f5' }}>
+    <div className={styles.projectCard + (cardColor ? ' ' + styles.coloredCard : '')}>
+      {image ? (
+        <img src={image} alt="Proje Fotoğrafı" className={styles.projectImage} />
+      ) : (
+        <div className={styles.projectImage + ' ' + styles.colorImage} />
+      )}
       <h3>{name}</h3>
-      <h4>{status}</h4>
-      <p>{description}</p>
-      <hr />
-      <div className={styles.techStack}>
-        <strong>Tech Stack:</strong>
-        <ul>
-          {stack.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </div>
     </div>
   )
 }

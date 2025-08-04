@@ -1,0 +1,36 @@
+/* Header ana container */
+.headerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 24px;
+    height: 70px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Sol grup (butonlar) */
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Orta grup (logo) */
+.headerCenter {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.headerLogo {
+    height: 40px;
+}
+
+/* Sağ grup (Account ve Logout) */
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

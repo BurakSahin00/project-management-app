@@ -1,7 +1,7 @@
 .projectContainer {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Her satırda 3 nesne */
-    gap: 16px; /* Kartlar arası boşluk */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     padding: 16px;
-    justify-items: center;
+    gap: 4px;
+    justify-items: start;
 }
