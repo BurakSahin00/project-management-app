@@ -1,3 +1,135 @@
+/* Add Card Box: full-width, flex, clickable, harmonious colors */
+.addCardBox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  background: #f5faff;
+  border-radius: 8px;
+  border: 1.5px solid #e0e7ef;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.06);
+  padding: 8px 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.addCardBox:hover {
+  background: #e3f2fd;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.12);
+}
+
+.addCardText {
+  font-size: 1rem;
+  color: #1976d2;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.addTaskCircleButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.08);
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+.addTaskCircleButton:hover {
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.18);
+  background: #f5faff;
+}
+.addTaskCircleButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #1976d2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  transition: background 0.2s, border 0.2s;
+  padding: 0;
+}
+/* Add button: white, left of header, does not affect header alignment */
+.addTaskCircleButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.08);
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: box-shadow 0.2s;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+.addTaskCircleButton:hover {
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.18);
+  background: #f5faff;
+}
+/* Flex row for header and add button */
+.columnHeaderRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* Column header: black font, flex row */
+.columnHeaderTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #222;
+  margin-right: 0.5rem;
+  flex: 1;
+}
+
+.columnContainer {
+  padding: 0 8px;
+}
+.addTaskCircleButton {
+  margin-right: 0.5rem;
+}
+.addTaskForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+}
+.addTaskInput {
+  font-size: 1rem;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.addTaskTextarea {
+  font-size: 1rem;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-height: 40px;
+}
+.addTaskActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
 
 .cardDragHandle {
   position: absolute;
@@ -76,38 +208,45 @@
   min-height: 60px;
 }
 
+/* Modal action buttons: modern, rounded, colored */
 .modalActions {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   justify-content: flex-end;
+  margin-top: 8px;
 }
 
 .modalButton {
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 10px 24px;
+  border-radius: 24px;
   border: none;
-  background: #222;
+  background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
   color: #fff;
   font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.10);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  outline: none;
 }
-
 .modalButton:hover {
-  background: #444;
+  background: linear-gradient(90deg, #1565c0 60%, #1976d2 100%);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.18);
+  transform: translateY(-2px) scale(1.04);
 }
 .boardContainer {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 4px;
   width: 100%;
-  padding: 32px 0;
+  padding: 8px 0;
 }
 
 .columnsWrapper {
   display: flex;
-  gap: 24px;
-  justify-content: center;
+  gap: 16px;
+  justify-content: stretch;
+  width: 100%;
 }
 
 .column {
@@ -115,11 +254,13 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   padding: 16px;
-  min-width: 280px;
-  flex: 1;
+  min-width: 240px;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  max-height: 420px;
+  /* Adjust max-height as needed for your design */
 }
 
 .columnTitle {
@@ -134,6 +275,10 @@
   flex-direction: column;
   gap: 12px;
   width: 100%;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  /* Ensures scroll works inside flex parent */
 }
 
 .card {

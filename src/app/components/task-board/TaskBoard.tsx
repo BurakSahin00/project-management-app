@@ -45,6 +45,23 @@ const TaskBoard: React.FC = () => {
   const [tasks, setTasks] = useState<TasksState>(initialTasks);
   const [editTask, setEditTask] = useState<{ col: ColumnKey; task: Task } | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [addModal, setAddModal] = useState<{ open: boolean; col: ColumnKey | null }>({ open: false, col: null });
+  const [newTask, setNewTask] = useState<{ title: string; description: string }>({ title: '', description: '' });
+
+  const handleAddTask = (col: ColumnKey) => {
+    const title = newTask.title.trim();
+    const description = newTask.description.trim();
+    if (!title) return;
+    setTasks(prev => ({
+      ...prev,
+      [col]: [
+        ...prev[col],
+        { id: Date.now().toString(), title, description }
+      ]
+    }));
+    setNewTask({ title: '', description: '' });
+    setAddModal({ open: false, col: null });
+  };
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -121,17 +138,59 @@ const TaskBoard: React.FC = () => {
                 items={tasks[col.key].map((t: Task) => t.id)}
                 strategy={verticalListSortingStrategy}
               >
-                <TaskColumn
-                  title={col.title}
-                  tasks={tasks[col.key]}
-                  columnKey={col.key}
-                  onCardClick={(task: Task) => handleCardClick(col.key, task)}
-                />
+                <div className={styles.columnContainer}>
+                  <div
+                    className={styles.addCardBox}
+                    onClick={() => setAddModal({ open: true, col: col.key })}
+                    title="Görev Ekle"
+                  >
+                    <span className={styles.addCardText}>Add Card</span>
+                    <span className={styles.addTaskCircleButton}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" stroke="#1976d2" strokeWidth="2.5" fill="#fff"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    </span>
+                  </div>
+                  <TaskColumn
+                    title={col.title}
+                    tasks={tasks[col.key]}
+                    columnKey={col.key}
+                    onCardClick={(task: Task) => handleCardClick(col.key, task)}
+                  />
+                </div>
               </SortableContext>
             ))}
           </div>
         </DndContext>
       </div>
+      {/* Modal for adding a new card */}
+      {addModal.open && addModal.col && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>Yeni Görev Oluştur</h3>
+            <input
+              type="text"
+              placeholder="Başlık"
+              className={styles.modalInput}
+              value={newTask.title}
+              onChange={e => setNewTask({ ...newTask, title: e.target.value })}
+              required
+            />
+            <textarea
+              placeholder="Açıklama"
+              className={styles.modalTextarea}
+              value={newTask.description}
+              onChange={e => setNewTask({ ...newTask, description: e.target.value })}
+            />
+            <div className={styles.modalActions}>
+              <button
+                className={styles.modalButton}
+                onClick={() => handleAddTask(addModal.col!)}
+              >Ekle</button>
+              <button className={styles.modalButton} onClick={() => setAddModal({ open: false, col: null })}>İptal</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Modal for editing a card */}
       {modalOpen && editTask && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
