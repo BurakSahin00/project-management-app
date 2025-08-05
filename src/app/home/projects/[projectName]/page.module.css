@@ -1,0 +1,66 @@
+
+.projectDetailContainer {
+  width: 95%;
+  margin: 32px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 32px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.projectDetailTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.projectDetailDescription {
+  font-size: 16px;
+  color: #333;
+  margin-top: 16px;
+  margin-bottom: 24px;
+  text-align: left;
+  max-width: 700px;
+}
+
+.projectDetailStackContainer {
+  text-align: left;
+  width: 100%;
+}
+
+.projectDetailStackList {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: flex-start;
+}
+
+.projectDetailTitle {
+  margin: 0;
+}
+
+.projectDetailStackList {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.projectDetailStackItem {
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 14px;
+}
+
+.projectDetailDescription {
+  font-size: 16px;
+  color: #333;
+}

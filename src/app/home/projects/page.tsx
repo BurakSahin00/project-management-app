@@ -1,6 +1,7 @@
 import React from 'react'
 import ProjectCard from '@/app/components/project-card/ProjectCard'
 import styles from './page.module.css';
+import Link from 'next/link';
 import { ProjectCardProps } from '@/app/components/project-card/ProjectCard';
 
 const ProjectCards: ProjectCardProps[] = [
@@ -42,7 +43,9 @@ const Projects: React.FC = () => {
   return (
     <div className={styles.projectContainer}>
       {ProjectCards.map((project, index) => (
-        <ProjectCard key={index} {...project} />
+        <Link href={`/home/projects/${project.name.toLowerCase().replace(/\s+/g, '-')}`} key={index} style={{ textDecoration: 'none' }}>
+          <ProjectCard {...project} />
+        </Link>
       ))}
     </div>
   )
