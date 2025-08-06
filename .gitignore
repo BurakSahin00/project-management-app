@@ -32,5 +32,17 @@ build/
 ### VS Code ###
 .vscode/
 application.properties
+application-local.properties
+application-dev.properties
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+# Database
+*.h2.db
+*.mv.db
+*.sql
+*.db
 mlipmp.txt
 mlipmp_dump.sql

@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import java.util.Map;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +23,7 @@ import stajokulu.mlipmp.business.abstracts.UserService;
 import stajokulu.mlipmp.entities.concretes.Task;
 import stajokulu.mlipmp.entities.dto.task.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/task")
 @RequiredArgsConstructor
@@ -31,7 +34,7 @@ public class TaskController {
     private final UserService userService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Task>> getAllTasks(){
+    public ResponseEntity<List<Task>> getAllTasks() {
         List<Task> tasks = taskService.getAll();
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
@@ -71,6 +74,19 @@ public class TaskController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    
 
+    @GetMapping("/getByProjectId/{projectId}")
+    public ResponseEntity<List<TaskDto>> getTasksByProjectId(@PathVariable UUID projectId) {
+        List<TaskDto> tasks = taskService.getTasksByProjectId(projectId);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateStatus/{taskId}")
+    public ResponseEntity<?> updateTaskStatus(@PathVariable UUID taskId, @RequestBody Map<String, String> body) {
+        String status = body.get("status");
+        taskService.updateTaskStatus(taskId, status);
+        Map<String, String> response = new java.util.HashMap<>();
+        response.put("message", "Status updated");
+        return ResponseEntity.ok().body(response);
+    }
 }

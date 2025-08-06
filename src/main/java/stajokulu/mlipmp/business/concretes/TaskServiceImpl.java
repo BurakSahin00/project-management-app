@@ -2,6 +2,7 @@ package stajokulu.mlipmp.business.concretes;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -60,6 +61,31 @@ public class TaskServiceImpl implements TaskService {
             taskRepository.save(task);
         }
         return task;
+    }
+
+    @Override
+    public List<TaskDto> getTasksByProjectId(UUID projectId) {
+        List<Task> tasks = taskRepository.findByProjectId(projectId);
+        return tasks.stream().map(task -> {
+            TaskDto dto = new TaskDto();
+            dto.setId(task.getId());
+            dto.setTitle(task.getTitle());
+            dto.setDescription(task.getDescription());
+            dto.setStatus(task.getStatus());
+            dto.setProjectId(task.getProject().getId());
+            // Diğer alanlar eklenebilir
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateTaskStatus(UUID taskId, String status) {
+        Task task = taskRepository.findById(taskId).orElse(null);
+        if (task == null) {
+            throw new RuntimeException("Task not found");
+        }
+        task.setStatus(status);
+        taskRepository.save(task);
     }
 
 }

@@ -14,4 +14,7 @@ public interface TaskService {
     void saveTask(TaskSaveDto taskDto); //DONE
     boolean deleteTask(UUID id); //DONE
     Task updateTask(TaskSaveDto taskDto, UUID id);//DONE
+    List<TaskDto> getTasksByProjectId(UUID projectId);
+    void updateTaskStatus(UUID taskId, String status);
 }
+
