@@ -34,7 +34,7 @@ const Projects: React.FC = () => {
   return (
     <div className={styles.projectContainer}>
       {projects.map((project, index) => (
-        <Link href={`/home/projects/${project.name?.toLowerCase().replace(/\s+/g, '-') || ''}`} key={index} style={{ textDecoration: 'none' }}>
+        <Link href={`/home/projects/${project.id || ''}`} key={index} style={{ textDecoration: 'none' }}>
           <ProjectCard {...project} />
         </Link>
       ))}

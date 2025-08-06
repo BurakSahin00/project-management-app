@@ -1,5 +1,4 @@
 "use client";
-"use client";
 import React, { useState } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
@@ -41,60 +40,62 @@ const columns: { key: ColumnKey; title: string }[] = [
   { key: "done", title: "Tamamlandı" },
 ];
 
-const TaskBoard: React.FC = () => {
-  const [tasks, setTasks] = useState<TasksState>(initialTasks);
+
+interface BackendTask {
+  id: string;
+  title: string;
+  description: string;
+  status: ColumnKey; // 'todo' | 'inprogress' | 'done'
+}
+
+interface TaskBoardProps {
+  tasks?: BackendTask[];
+}
+
+// Backend'den gelen düz task dizisini sütunlara ayıran yardımcı fonksiyon
+function groupTasksByStatus(tasks: BackendTask[] | undefined): TasksState {
+  const grouped: TasksState = { todo: [], inprogress: [], done: [] };
+  if (!tasks) return grouped;
+  for (const t of tasks) {
+    if (grouped[t.status]) grouped[t.status].push({ id: t.id, title: t.title, description: t.description });
+  }
+  return grouped;
+}
+
+const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
+  // tasks prop'u gelirse onu sütunlara ayırıp state'e al, yoksa local initialTasks'u kullan
+  const [tasksState, setTasksState] = useState<TasksState>(tasks ? groupTasksByStatus(tasks) : initialTasks);
   const [editTask, setEditTask] = useState<{ col: ColumnKey; task: Task } | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [addModal, setAddModal] = useState<{ open: boolean; col: ColumnKey | null }>({ open: false, col: null });
   const [newTask, setNewTask] = useState<{ title: string; description: string }>({ title: '', description: '' });
-
-  const handleAddTask = (col: ColumnKey) => {
-    const title = newTask.title.trim();
-    const description = newTask.description.trim();
-    if (!title) return;
-    setTasks(prev => ({
-      ...prev,
-      [col]: [
-        ...prev[col],
-        { id: Date.now().toString(), title, description }
-      ]
-    }));
-    setNewTask({ title: '', description: '' });
-    setAddModal({ open: false, col: null });
-  };
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (!over) return;
     let sourceCol: ColumnKey | undefined = undefined;
     let destCol: ColumnKey | undefined = undefined;
-    // Kaynağı bul
     for (const col of columns) {
-      if (tasks[col.key].find((t: Task) => t.id === active.id)) sourceCol = col.key;
+      if (tasksState[col.key].find((t: Task) => t.id === active.id)) sourceCol = col.key;
     }
-    // Hedefi bul: Eğer bir kartın üstüne bırakıldıysa, o kartın bulunduğu sütun; boş alana bırakıldıysa sütun id'si
     for (const col of columns) {
       if (over.id === col.key) destCol = col.key;
-      else if (tasks[col.key].find((t: Task) => t.id === over.id)) destCol = col.key;
+      else if (tasksState[col.key].find((t: Task) => t.id === over.id)) destCol = col.key;
     }
     if (!sourceCol || !destCol) return;
     if (sourceCol === destCol) {
-      // Aynı sütunda sıralama
-      const oldIndex = tasks[sourceCol].findIndex((t: Task) => t.id === active.id);
-      let newIndex = tasks[destCol].findIndex((t: Task) => t.id === over.id);
-      // Eğer boş alana bırakıldıysa, en sona ekle
-      if (newIndex === -1) newIndex = tasks[destCol].length - 1;
-      setTasks((prev) => ({
+      const oldIndex = tasksState[sourceCol].findIndex((t: Task) => t.id === active.id);
+      let newIndex = tasksState[destCol].findIndex((t: Task) => t.id === over.id);
+      if (newIndex === -1) newIndex = tasksState[destCol].length - 1;
+      setTasksState((prev) => ({
         ...prev,
         [sourceCol!]: arrayMove(prev[sourceCol!], oldIndex, newIndex),
       }));
     } else {
-      // Farklı sütuna taşıma
-      const movingTask = tasks[sourceCol].find((t: Task) => t.id === active.id);
-      let insertIndex = tasks[destCol].findIndex((t: Task) => t.id === over.id);
-      // Eğer boş alana bırakıldıysa, en sona ekle
-      if (insertIndex === -1) insertIndex = tasks[destCol].length;
-      setTasks((prev) => {
+      const movingTask = tasksState[sourceCol].find((t: Task) => t.id === active.id);
+      let insertIndex = tasksState[destCol].findIndex((t: Task) => t.id === over.id);
+      if (insertIndex === -1) insertIndex = tasksState[destCol].length;
+      setTasksState((prev) => {
         const newDest = [...prev[destCol!]];
         if (movingTask) newDest.splice(insertIndex, 0, movingTask);
         return {
@@ -103,6 +104,24 @@ const TaskBoard: React.FC = () => {
           [destCol!]: newDest,
         };
       });
+      // Backend'e status update isteği gönder
+      if (movingTask) {
+        fetch(`http://localhost:8082/task/updateStatus/${movingTask.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: destCol }),
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('Status update failed');
+          return res.json();
+        })
+        .then(data => {
+          console.log('Status updated:', data);
+        })
+        .catch(err => {
+          console.error('Status update error:', err);
+        });
+      }
     }
   };
 
@@ -118,13 +137,46 @@ const TaskBoard: React.FC = () => {
 
   const handleTaskSave = (title: string, description: string) => {
     if (!editTask) return;
-    setTasks((prev) => ({
+    setTasksState((prev) => ({
       ...prev,
       [editTask.col]: prev[editTask.col].map((t) =>
         t.id === editTask.task.id ? { ...t, title, description } : t
       ),
     }));
     handleModalClose();
+  };
+
+  // Yeni görev ekleme fonksiyonu
+  const handleAddTask = (col: ColumnKey) => {
+    if (!newTask.title.trim()) return;
+    // projectId prop ile geliyorsa alın (ör: props.projectId veya context)
+    const projectId = (typeof window !== 'undefined' && window.location.pathname.split('/').includes('projects'))
+      ? window.location.pathname.split('/').pop() : undefined;
+
+    fetch("http://localhost:8082/task/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: newTask.title,
+        description: newTask.description,
+        status: col,
+        projectId: projectId, // Eğer gerekmiyorsa bu satırı kaldırabilirsiniz
+        // assigneeId: ... // Gerekirse ekleyin
+      }),
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Görev eklenemedi");
+        return res.text();
+      })
+      .then(data => {
+        // İsteğe bağlı: Yeni task'ı state'e ekleyebilirsiniz veya task listesini yeniden çekebilirsiniz
+      })
+      .catch(err => {
+        alert("Görev eklenemedi: " + err.message);
+      });
+
+    setNewTask({ title: '', description: '' });
+    setAddModal({ open: false, col: null });
   };
 
   return (
@@ -135,7 +187,7 @@ const TaskBoard: React.FC = () => {
             {columns.map((col) => (
               <SortableContext
                 key={col.key}
-                items={tasks[col.key].map((t: Task) => t.id)}
+                items={tasksState[col.key].map((t: Task) => t.id)}
                 strategy={verticalListSortingStrategy}
               >
                 <div className={styles.columnContainer}>
@@ -151,7 +203,7 @@ const TaskBoard: React.FC = () => {
                   </div>
                   <TaskColumn
                     title={col.title}
-                    tasks={tasks[col.key]}
+                    tasks={tasksState[col.key]}
                     columnKey={col.key}
                     onCardClick={(task: Task) => handleCardClick(col.key, task)}
                   />
