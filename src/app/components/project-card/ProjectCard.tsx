@@ -1,16 +1,17 @@
 import React from 'react'
 import styles from './project-card.module.css';
-import { spec } from 'node:test/reporters';
 
-export type ProjectCardProps = {
-    name: string;
-    description: string;
-    status: 'active' | 'completed';
-    stack: string[];   
-    startDate: string;
-    endDate: string;
-    cardColor?: string; // Kart arka plan rengi
-    image?: string;     // Kart fotoğrafı (opsiyonel)
+
+export interface ProjectCardProps {
+  id: string;
+  name: string;
+  description: string;
+  status: string; // ör: 'active', 'completed', 'pending', 'archived' vs. backend ile uyumlu olmalı
+  stack: string[];
+  startDate: string;
+  endDate: string;
+  cardColor?: string;
+  image?: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ name, cardColor, image }) => {
