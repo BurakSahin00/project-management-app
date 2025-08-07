@@ -36,8 +36,13 @@ public class TaskServiceImpl implements TaskService {
         Task task = new Task();
         task.setTitle(taskDto.getTitle());
         task.setDescription(taskDto.getDescription());
+        task.setStatus(taskDto.getStatus());
         task.setProject(projectRepository.findById(taskDto.getProjectId()).orElse(null));
-        task.setAssignee(userRepository.findById(taskDto.getAssigneeId()).orElse(null));
+        if (taskDto.getAssigneeId() != null) {
+            task.setAssignee(userRepository.findById(taskDto.getAssigneeId()).orElse(null));
+        } else {
+            task.setAssignee(null);
+        }
         taskRepository.save(task);
     }
 
@@ -57,7 +62,11 @@ public class TaskServiceImpl implements TaskService {
             task.setTitle(taskDto.getTitle());
             task.setDescription(taskDto.getDescription());
             task.setProject(projectRepository.findById(taskDto.getProjectId()).orElse(null));
-            task.setAssignee(userRepository.findById(taskDto.getAssigneeId()).orElse(null));
+            if (taskDto.getAssigneeId() != null) {
+                task.setAssignee(userRepository.findById(taskDto.getAssigneeId()).orElse(null));
+            } else {
+                task.setAssignee(null);
+            }
             taskRepository.save(task);
         }
         return task;
