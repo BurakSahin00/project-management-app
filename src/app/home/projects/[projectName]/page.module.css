@@ -1,14 +1,29 @@
+.projectHeaderBox {
+  width: 100%;
+  max-width: 1400px;
+  margin: 32px auto 8px auto;
+  padding: 24px 40px;
+  background: #f7faff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.06);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
 
 .projectDetailContainer {
-  width: 95%;
-  margin: 32px auto;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto 32px auto;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  padding: 32px 32px;
+  padding: 32px 40px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  box-sizing: border-box;
 }
 
 .projectDetailTitle {

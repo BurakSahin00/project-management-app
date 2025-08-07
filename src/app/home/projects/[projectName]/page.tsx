@@ -13,15 +13,25 @@ const ProjectDetails = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Proje detayını çekmek istiyorsan burada fetch ile çekebilirsin
-    // Şimdilik sadece taskları çekiyoruz:
+    // Proje detayını çek
+    fetch(`http://localhost:8082/project/getById/${projectId}`)
+      .then(res => {
+        if (!res.ok) throw new Error('Proje bulunamadı');
+        return res.json();
+      })
+      .then(data => {
+        setProject(data);
+      })
+      .catch(() => {
+        setProject(null);
+      });
+    // Taskları çek
     fetch(`http://localhost:8082/task/getByProjectId/${projectId}`)
       .then(res => {
         if (!res.ok) throw new Error('API error');
         return res.json();
       })
       .then(data => {
-        console.log(data);
         setTasks(data);
         setLoading(false);
       })
@@ -36,8 +46,18 @@ const ProjectDetails = () => {
 
   return (
     <>
-      {/* Proje detaylarını ayrıca çekmek istersen burada gösterebilirsin */}
-      <div className={styles.projectDetailContainer} style={{ marginTop: 32 }}>
+      {/* Proje başlığı ve açıklaması */}
+      <div className={styles.projectHeaderBox}>
+        <div>
+          <h1 className={styles.projectTitle}>
+            {project?.name || 'Proje Adı Bulunamadı'}
+          </h1>
+          <p className={styles.projectDescription}>
+            {project?.description || 'Açıklama bulunamadı.'}
+          </p>
+        </div>
+      </div>
+      <div className={styles.projectDetailContainer}>
         <TaskBoard tasks={tasks} />
       </div>
     </>

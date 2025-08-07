@@ -137,12 +137,34 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
 
   const handleTaskSave = (title: string, description: string) => {
     if (!editTask) return;
-    setTasksState((prev) => ({
-      ...prev,
-      [editTask.col]: prev[editTask.col].map((t) =>
-        t.id === editTask.task.id ? { ...t, title, description } : t
-      ),
-    }));
+    // projectId'yi route'dan tekrar al
+    const projectId = (typeof window !== 'undefined' && window.location.pathname.split('/').includes('projects'))
+      ? window.location.pathname.split('/').pop() : undefined;
+    // Güncellenecek task'ın mevcut status ve assigneeId'sini bul
+    const status = editTask.col;
+    // Eğer assigneeId backend'de zorunluysa null gönder
+    const updatePayload = {
+      title,
+      description,
+      status,
+      projectId,
+      assigneeId: null
+    };
+    fetch(`http://localhost:8082/task/update/${editTask.task.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatePayload),
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Görev güncellenemedi");
+        // Güncelleme sonrası görevleri tekrar çek
+        if (projectId) {
+          fetch(`http://localhost:8082/task/getByProjectId/${projectId}`)
+            .then(res => res.json())
+            .then((tasks: BackendTask[]) => setTasksState(groupTasksByStatus(tasks)));
+        }
+      })
+      .catch(err => alert("Görev güncellenemedi: " + err.message));
     handleModalClose();
   };
 
