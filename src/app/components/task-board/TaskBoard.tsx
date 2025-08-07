@@ -153,23 +153,42 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
     const projectId = (typeof window !== 'undefined' && window.location.pathname.split('/').includes('projects'))
       ? window.location.pathname.split('/').pop() : undefined;
 
+    // Eğer assigneeId yoksa null gönder
+    const taskPayload = {
+      title: newTask.title,
+      description: newTask.description,
+      status: col,
+      projectId: projectId,
+      assigneeId: null // İleride kullanıcı seçimi eklenirse burası güncellenebilir
+    };
+
+
     fetch("http://localhost:8082/task/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: newTask.title,
-        description: newTask.description,
-        status: col,
-        projectId: projectId, // Eğer gerekmiyorsa bu satırı kaldırabilirsiniz
-        // assigneeId: ... // Gerekirse ekleyin
-      }),
+      body: JSON.stringify(taskPayload),
     })
       .then(res => {
+        console.log(projectId);
+        console.log(taskPayload);
         if (!res.ok) throw new Error("Görev eklenemedi");
         return res.text();
       })
-      .then(data => {
-        // İsteğe bağlı: Yeni task'ı state'e ekleyebilirsiniz veya task listesini yeniden çekebilirsiniz
+      .then(_ => {
+        // Görev başarıyla eklendikten sonra, ilgili projenin görevlerini backend'den çek
+        if (projectId) {
+          fetch(`http://localhost:8082/task/getByProjectId/${projectId}`)
+            .then(res => {
+              if (!res.ok) throw new Error("Görevler alınamadı");
+              return res.json();
+            })
+            .then((tasks: BackendTask[]) => {
+              setTasksState(groupTasksByStatus(tasks));
+            })
+            .catch(err => {
+              alert("Görevler güncellenemedi: " + err.message);
+            });
+        }
       })
       .catch(err => {
         alert("Görev eklenemedi: " + err.message);
@@ -177,6 +196,32 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
 
     setNewTask({ title: '', description: '' });
     setAddModal({ open: false, col: null });
+  };
+
+  // Görev silme fonksiyonu
+  const handleDeleteTask = (id: string) => {
+    // projectId'yi route'dan tekrar al
+    const projectId = (typeof window !== 'undefined' && window.location.pathname.split('/').includes('projects'))
+      ? window.location.pathname.split('/').pop() : undefined;
+    fetch(`http://localhost:8082/task/delete/${id}`, { method: "DELETE" })
+      .then(res => {
+        if (!res.ok) throw new Error("Görev silinemedi");
+        // Silme sonrası görevleri tekrar çek
+        if (projectId) {
+          fetch(`http://localhost:8082/task/getByProjectId/${projectId}`)
+            .then(res => {
+              if (!res.ok) throw new Error("Görevler alınamadı");
+              return res.json();
+            })
+            .then((tasks: BackendTask[]) => {
+              setTasksState(groupTasksByStatus(tasks));
+            })
+            .catch(err => {
+              alert("Görevler güncellenemedi: " + err.message);
+            });
+        }
+      })
+      .catch(err => alert("Görev silinemedi: " + err.message));
   };
 
   return (
@@ -206,6 +251,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
                     tasks={tasksState[col.key]}
                     columnKey={col.key}
                     onCardClick={(task: Task) => handleCardClick(col.key, task)}
+                    onDelete={handleDeleteTask}
                   />
                 </div>
               </SortableContext>

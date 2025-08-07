@@ -14,16 +14,23 @@ interface TaskColumnProps {
   tasks: Task[];
   columnKey: string;
   onCardClick?: (task: Task) => void;
+  onDelete?: (id: string) => void;
 }
 
-const TaskColumn: React.FC<TaskColumnProps> = ({ title, tasks, columnKey, onCardClick }) => {
+const TaskColumn: React.FC<TaskColumnProps> = ({ title, tasks, columnKey, onCardClick, onDelete }) => {
   const { setNodeRef } = useDroppable({ id: columnKey });
   return (
     <div className={styles.column} ref={setNodeRef}>
       <h3 className={styles.columnTitle}>{title}</h3>
       <div className={styles.cardsWrapper}>
         {tasks.map((task) => (
-          <SortableItem key={task.id} id={task.id} task={task} onClick={() => onCardClick && onCardClick(task)} />
+          <SortableItem
+            key={task.id}
+            id={task.id}
+            task={task}
+            onClick={() => onCardClick && onCardClick(task)}
+            onDelete={onDelete}
+          />
         ))}
       </div>
     </div>
