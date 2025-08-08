@@ -1,3 +1,77 @@
+.commentContent {
+  color: #333;
+  font-size: 15px;
+  margin-bottom: 6px;
+  word-break: break-word;
+}
+
+.commentMetaRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #888;
+}
+
+.commentAuthor {
+  font-weight: 500;
+  color: #1976d2;
+}
+
+.commentDate {
+  font-weight: 400;
+  color: #888;
+  font-size: 12px;
+}
+/* Modal genişliği ve iki sütunlu düzen için eklemeler */
+.editModalContent {
+  width: 700px;
+  min-width: 600px;
+  max-width: 90vw;
+  padding: 32px 32px 32px 32px;
+  box-sizing: border-box;
+}
+
+.editModalGrid {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+}
+
+.editModalLeft {
+  flex: 1 1 0;
+  min-width: 260px;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editModalRight {
+  flex: 1 1 0;
+  min-width: 220px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-left: 1px solid #e0e0e0;
+  padding-left: 24px;
+  height: 100%;
+}
+
+.commentsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.commentItem {
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}
 /* Add Card Box: full-width, flex, clickable, harmonious colors */
 .addCardBox {
   width: 100%;

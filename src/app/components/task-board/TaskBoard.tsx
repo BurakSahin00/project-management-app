@@ -13,6 +13,8 @@ type Task = {
   id: string;
   title: string;
   description: string;
+  startDate?: string;
+  endDate?: string;
 };
 
 type ColumnKey = 'todo' | 'inprogress' | 'done';
@@ -46,6 +48,15 @@ interface BackendTask {
   title: string;
   description: string;
   status: ColumnKey; // 'todo' | 'inprogress' | 'done'
+  startDate?: string;
+  endDate?: string;
+}
+
+interface TaskComment {
+  id: string;
+  content: string;
+  authorName: string;
+  createdAt: string;
 }
 
 interface TaskBoardProps {
@@ -66,9 +77,11 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
   // tasks prop'u gelirse onu sütunlara ayırıp state'e al, yoksa local initialTasks'u kullan
   const [tasksState, setTasksState] = useState<TasksState>(tasks ? groupTasksByStatus(tasks) : initialTasks);
   const [editTask, setEditTask] = useState<{ col: ColumnKey; task: Task } | null>(null);
+  const [editTaskDates, setEditTaskDates] = useState<{ startDate: string; endDate: string }>({ startDate: '', endDate: '' });
+  const [comments, setComments] = useState<TaskComment[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [addModal, setAddModal] = useState<{ open: boolean; col: ColumnKey | null }>({ open: false, col: null });
-  const [newTask, setNewTask] = useState<{ title: string; description: string }>({ title: '', description: '' });
+  const [newTask, setNewTask] = useState<{ title: string; description: string; startDate: string; endDate: string }>({ title: '', description: '', startDate: '', endDate: '' });
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -127,6 +140,15 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
 
   const handleCardClick = (col: ColumnKey, task: Task) => {
     setEditTask({ col, task });
+    setEditTaskDates({
+      startDate: task.startDate || '',
+      endDate: task.endDate || '',
+    });
+    // Yorumları fetch et (güncel endpoint: /comments/task/{taskId})
+    fetch(`http://localhost:8082/comments/task/${task.id}`)
+      .then(res => res.ok ? res.json() : [])
+      .then((data: TaskComment[]) => setComments(data))
+      .catch(() => setComments([]));
     setModalOpen(true);
   };
 
@@ -135,20 +157,19 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
     setEditTask(null);
   };
 
-  const handleTaskSave = (title: string, description: string) => {
+  const handleTaskSave = (title: string, description: string, startDate: string, endDate: string) => {
     if (!editTask) return;
-    // projectId'yi route'dan tekrar al
     const projectId = (typeof window !== 'undefined' && window.location.pathname.split('/').includes('projects'))
       ? window.location.pathname.split('/').pop() : undefined;
-    // Güncellenecek task'ın mevcut status ve assigneeId'sini bul
     const status = editTask.col;
-    // Eğer assigneeId backend'de zorunluysa null gönder
     const updatePayload = {
       title,
       description,
       status,
       projectId,
-      assigneeId: null
+      assigneeId: null,
+      startDate,
+      endDate
     };
     fetch(`http://localhost:8082/task/update/${editTask.task.id}`, {
       method: "PUT",
@@ -157,7 +178,6 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
     })
       .then(res => {
         if (!res.ok) throw new Error("Görev güncellenemedi");
-        // Güncelleme sonrası görevleri tekrar çek
         if (projectId) {
           fetch(`http://localhost:8082/task/getByProjectId/${projectId}`)
             .then(res => res.json())
@@ -171,33 +191,27 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
   // Yeni görev ekleme fonksiyonu
   const handleAddTask = (col: ColumnKey) => {
     if (!newTask.title.trim()) return;
-    // projectId prop ile geliyorsa alın (ör: props.projectId veya context)
     const projectId = (typeof window !== 'undefined' && window.location.pathname.split('/').includes('projects'))
       ? window.location.pathname.split('/').pop() : undefined;
-
-    // Eğer assigneeId yoksa null gönder
     const taskPayload = {
       title: newTask.title,
       description: newTask.description,
       status: col,
       projectId: projectId,
-      assigneeId: null // İleride kullanıcı seçimi eklenirse burası güncellenebilir
+      assigneeId: null,
+      startDate: newTask.startDate,
+      endDate: newTask.endDate
     };
-
-
     fetch("http://localhost:8082/task/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(taskPayload),
     })
       .then(res => {
-        console.log(projectId);
-        console.log(taskPayload);
         if (!res.ok) throw new Error("Görev eklenemedi");
         return res.text();
       })
       .then(_ => {
-        // Görev başarıyla eklendikten sonra, ilgili projenin görevlerini backend'den çek
         if (projectId) {
           fetch(`http://localhost:8082/task/getByProjectId/${projectId}`)
             .then(res => {
@@ -215,8 +229,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
       .catch(err => {
         alert("Görev eklenemedi: " + err.message);
       });
-
-    setNewTask({ title: '', description: '' });
+    setNewTask({ title: '', description: '', startDate: '', endDate: '' });
     setAddModal({ open: false, col: null });
   };
 
@@ -300,6 +313,22 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
               value={newTask.description}
               onChange={e => setNewTask({ ...newTask, description: e.target.value })}
             />
+            <div style={{ display: 'flex', gap: 8 }}>
+              <input
+                type="date"
+                className={styles.modalInput}
+                value={newTask.startDate}
+                onChange={e => setNewTask({ ...newTask, startDate: e.target.value })}
+                placeholder="Başlangıç Tarihi"
+              />
+              <input
+                type="date"
+                className={styles.modalInput}
+                value={newTask.endDate}
+                onChange={e => setNewTask({ ...newTask, endDate: e.target.value })}
+                placeholder="Bitiş Tarihi"
+              />
+            </div>
             <div className={styles.modalActions}>
               <button
                 className={styles.modalButton}
@@ -313,29 +342,71 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
       {/* Modal for editing a card */}
       {modalOpen && editTask && (
         <div className={styles.modalOverlay}>
-          <div className={styles.modalContent}>
-            <h3>Görev Düzenle</h3>
-            <input
-              type="text"
-              defaultValue={editTask.task.title}
-              className={styles.modalInput}
-              id="edit-title"
-            />
-            <textarea
-              defaultValue={editTask.task.description}
-              className={styles.modalTextarea}
-              id="edit-desc"
-            />
-            <div className={styles.modalActions}>
-              <button
-                className={styles.modalButton}
-                onClick={() => {
-                  const title = (document.getElementById("edit-title") as HTMLInputElement).value;
-                  const desc = (document.getElementById("edit-desc") as HTMLTextAreaElement).value;
-                  handleTaskSave(title, desc);
-                }}
-              >Kaydet</button>
-              <button className={styles.modalButton} onClick={handleModalClose}>İptal</button>
+          <div className={styles.modalContent + ' ' + styles.editModalContent}>
+            <div className={styles.editModalGrid}>
+              {/* Sol: Düzenleme kutuları */}
+              <div className={styles.editModalLeft}>
+                <h3>Görev Düzenle</h3>
+                <input
+                  type="text"
+                  defaultValue={editTask.task.title}
+                  className={styles.modalInput}
+                  id="edit-title"
+                />
+                <textarea
+                  defaultValue={editTask.task.description}
+                  className={styles.modalTextarea}
+                  id="edit-desc"
+                />
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <input
+                    type="date"
+                    className={styles.modalInput}
+                    value={editTaskDates.startDate}
+                    onChange={e => setEditTaskDates(d => ({ ...d, startDate: e.target.value }))}
+                    placeholder="Başlangıç Tarihi"
+                  />
+                  <input
+                    type="date"
+                    className={styles.modalInput}
+                    value={editTaskDates.endDate}
+                    onChange={e => setEditTaskDates(d => ({ ...d, endDate: e.target.value }))}
+                    placeholder="Bitiş Tarihi"
+                  />
+                </div>
+                <div className={styles.modalActions}>
+                  <button
+                    className={styles.modalButton}
+                    onClick={() => {
+                      const title = (document.getElementById("edit-title") as HTMLInputElement).value;
+                      const desc = (document.getElementById("edit-desc") as HTMLTextAreaElement).value;
+                      handleTaskSave(title, desc, editTaskDates.startDate, editTaskDates.endDate);
+                    }}
+                  >Kaydet</button>
+                  <button className={styles.modalButton} onClick={handleModalClose}>İptal</button>
+                </div>
+              </div>
+              {/* Sağ: Yorumlar */}
+              <div className={styles.editModalRight}>
+                <h4>Yorumlar</h4>
+                {comments.length === 0 ? (
+                  <div style={{ color: '#888', fontSize: 14 }}>Henüz yorum yok.</div>
+                ) : (
+                  <ul className={styles.commentsList}>
+                    {comments.map(c => (
+                      <li key={c.id} className={styles.commentItem}>
+                        {/* Açıklama üstte */}
+                        <div className={styles.commentContent}>{c.content}</div>
+                        {/* Alt satır: yazar solda, tarih sağda */}
+                        <div className={styles.commentMetaRow}>
+                          <span className={styles.commentAuthor}>{c.authorName && c.authorName.trim() !== '' ? c.authorName : 'Bilinmeyen'}</span>
+                          <span className={styles.commentDate}>{new Date(c.createdAt).toLocaleString('tr-TR')}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
         </div>
