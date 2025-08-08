@@ -15,7 +15,7 @@ public interface CommentRepository extends JpaRepository<Comment, UUID> {
     List<Comment> findByTaskProjectId(UUID projectId);
     List<Comment> findByAuthorId(UUID authorId);
     List<Comment> findByTaskProjectIdAndAuthorId(UUID projectId, UUID authorId);
-
+    List<Comment> findByTaskId(UUID taskId); //Burak
     // Burayı düzeltin:
     Optional<Task> findFirstByTaskProjectId(UUID projectId);
 

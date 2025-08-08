@@ -38,7 +38,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public boolean deleteCommentsByProject(UUID projectId) {
         List<Comment> comments = commentRepository.findByTaskProjectId(projectId);
-        if (comments.isEmpty()) return false;
+        if (comments.isEmpty())
+            return false;
 
         commentRepository.deleteAll(comments);
         return true;
@@ -47,7 +48,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public boolean deleteCommentsByUser(UUID id) {
         List<Comment> comments = commentRepository.findByAuthorId(id);
-        if (comments.isEmpty()) return false;
+        if (comments.isEmpty())
+            return false;
 
         commentRepository.deleteAll(comments);
         return true;
@@ -70,7 +72,6 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
     }
 
-
     @Override
     public void updateComment(UUID commentId, String newContent) {
         Comment comment = commentRepository.findById(commentId)
@@ -78,6 +79,12 @@ public class CommentServiceImpl implements CommentService {
 
         comment.setContent(newContent);
         commentRepository.save(comment);
+    }
+
+    //Burak
+    @Override
+    public List<Comment> getCommentsByTask(UUID taskId) {
+        return commentRepository.findByTaskId(taskId);
     }
 
 }

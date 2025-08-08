@@ -73,4 +73,11 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    //Burak
+    @GetMapping("/task/{taskId}")
+    public ResponseEntity<List<Comment>> getCommentsByTask(@PathVariable UUID taskId) {
+        List<Comment> comments = commentService.getCommentsByTask(taskId);
+        return ResponseEntity.ok(comments);
+    }
 }

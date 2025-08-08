@@ -1,4 +1,4 @@
-package stajokulu.mlipmp.business.abstracts;
+    package stajokulu.mlipmp.business.abstracts;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,5 +14,6 @@ public interface CommentService {
     boolean deleteCommentsByUser(UUID id);
     void addCommentToProject(CommentSaveDto commentSaveDto, UUID projectId);
     void updateComment(UUID commentId, String newContent);
+    List<Comment> getCommentsByTask(UUID taskId); //Burak
 
 }
