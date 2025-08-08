@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from 'react';
 import ProjectCard from '@/app/components/project-card/ProjectCard';
 import styles from './page.module.css';
@@ -12,13 +11,19 @@ const Projects: React.FC = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8082/project/getAll')
+    // localStorage'dan userId al
+    const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') : null;
+    if (!userId) {
+      setError('Kullanıcı bilgisi bulunamadı. Lütfen tekrar giriş yapın.');
+      setLoading(false);
+      return;
+    }
+    fetch(`http://localhost:8082/project/getByUserId/${userId}`)
       .then(res => {
         if (!res.ok) throw new Error('API error');
         return res.json();
       })
       .then(data => {
-        console.log(data);
         setProjects(data);
         setLoading(false);
       })
