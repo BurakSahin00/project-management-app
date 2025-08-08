@@ -13,6 +13,7 @@
     "@dnd-kit/sortable": "^10.0.0",
     "next": "15.4.3",
     "react": "19.1.0",
+    "react-calendar": "^6.0.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0"
   },

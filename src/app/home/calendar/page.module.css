@@ -1,0 +1,426 @@
+.customCalendarHeader {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	margin-bottom: 10px;
+}
+.calNavBtn {
+	background: #f5faff;
+	color: #1976d2;
+	border: none;
+	border-radius: 8px;
+	font-size: 1.2rem;
+	font-weight: 700;
+	padding: 4px 16px;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s;
+}
+.calNavBtn:hover {
+	background: #e3f2fd;
+	color: #7c4dff;
+}
+.calMonthLabel {
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: #1976d2;
+	letter-spacing: 0.01em;
+	text-transform: capitalize;
+}
+
+.customCalendarGrid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	width: 100%;
+	border: 1.5px solid #f0f0f0;
+	border-radius: 18px;
+	background: #fff;
+	box-shadow: 0 2px 12px rgba(124,77,255,0.04);
+	overflow: hidden;
+}
+.calWeekDay {
+	text-align: center;
+	font-size: 1.08rem;
+	font-weight: 600;
+	color: #222;
+	background: #f8f8ff;
+	border-bottom: 1.5px solid #f0f0f0;
+	padding: 12px 0 10px 0;
+	letter-spacing: 0.01em;
+}
+.calDay,
+.calDayEmpty {
+	min-height: 74px;
+	background: #fff;
+	color: #222;
+	font-weight: 500;
+	position: relative;
+	border: 1.5px solid #f0f0f0;
+	border-top: none;
+	border-left: none;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 10px 6px 4px 12px;
+	cursor: pointer;
+	transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+	font-size: 1.08rem;
+}
+.calDayEmpty {
+	background: #f8f8ff;
+	color: #bdbdbd;
+	border: 1.5px solid #f0f0f0;
+	border-top: none;
+	border-left: none;
+	cursor: default;
+}
+.calDayToday {
+	border: 2px solid #7c4dff;
+	font-weight: 700;
+	background: #f3eafe;
+	color: #7c4dff;
+}
+.calDaySelected {
+	background: #7c4dff;
+	color: #fff;
+	box-shadow: 0 2px 8px rgba(124,77,255,0.18);
+}
+.calDayNum {
+	font-size: 1.18rem;
+	font-weight: 700;
+	margin-bottom: 6px;
+	letter-spacing: 0.01em;
+}
+.calDay .taskList {
+	margin-top: 2px;
+}
+.calDay .taskItem {
+	background: #a084ee;
+	color: #fff;
+	border-radius: 6px;
+	font-size: 12px;
+	padding: 2px 8px;
+	margin-bottom: 2px;
+	display: block;
+	font-weight: 500;
+	box-shadow: 0 1px 4px rgba(124,77,255,0.08);
+	letter-spacing: 0.01em;
+	text-align: center;
+	max-width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.headerRow {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 18px;
+	margin-top: 8px;
+}
+.pageTitle {
+	font-size: 2rem;
+	font-weight: 700;
+	color: #222;
+	letter-spacing: 0.01em;
+}
+.viewSwitcher {
+	display: flex;
+	gap: 8px;
+}
+.viewSwitcherBtn {
+	background: #f5faff;
+	color: #1976d2;
+	border: none;
+	border-radius: 8px;
+	font-size: 1rem;
+	font-weight: 500;
+	padding: 7px 18px;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s;
+}
+.viewSwitcherBtn.active, .viewSwitcherBtn:active {
+	background: #7c4dff;
+	color: #fff;
+}
+.viewSwitcherBtn:hover {
+	background: #e3f2fd;
+	color: #1565c0;
+}
+
+.leftPanelBox {
+	background: #fff;
+	border-radius: 18px;
+	box-shadow: 0 4px 24px rgba(25,118,210,0.10);
+	padding: 24px 18px 18px 18px;
+	min-width: 320px;
+	max-width: 420px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	align-items: center;
+}
+.calendarBoxTitle {
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: #1976d2;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.calendarPage {
+	width: 100vw;
+	min-width: 100vw;
+	max-width: 100vw;
+	margin: 0;
+	padding: 32px 5vw 0 5vw;
+	background: linear-gradient(120deg, #f5faff 60%, #e3f2fd 100%);
+	min-height: 100vh;
+	height: 100vh;
+	box-sizing: border-box;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+.calendarMainGrid {
+	display: grid;
+	grid-template-columns: 1.1fr 1fr;
+	gap: 36px;
+	align-items: flex-start;
+	margin-top: 12px;
+	width: 100%;
+	max-width: 100vw;
+	box-sizing: border-box;
+	height: calc(100vh - 170px);
+}
+.leftPanelBox, .tasksPanel {
+	min-width: 0;
+	max-width: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.leftPanelBox {
+	justify-content: flex-start;
+	height: 100%;
+}
+.tasksPanel {
+	justify-content: flex-start;
+	height: 100%;
+	min-height: unset;
+}
+
+.tasksPanel {
+	background: #fff;
+	border-radius: 18px;
+	box-shadow: 0 4px 24px rgba(25,118,210,0.10);
+	padding: 28px 20px 24px 20px;
+	min-width: 320px;
+	max-width: 420px;
+	width: 100%;
+	min-height: 420px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.tasksPanelTitle {
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: #1976d2;
+	margin-bottom: 18px;
+}
+.noTasks {
+	color: #888;
+	font-size: 1rem;
+	margin-top: 24px;
+}
+.tasksList {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.taskCard {
+	background: linear-gradient(90deg, #e3f2fd 60%, #f5faff 100%);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+	padding: 18px 16px 14px 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	border-left: 5px solid #1976d2;
+}
+.taskCardTitle {
+	font-size: 1.08rem;
+	font-weight: 600;
+	color: #1976d2;
+	margin-bottom: 2px;
+}
+.taskCardDates {
+	display: flex;
+	flex-direction: row;
+	gap: 18px;
+	font-size: 0.98rem;
+	color: #1976d2;
+}
+.taskCardDuration {
+	font-size: 0.98rem;
+	color: #388e3c;
+	font-weight: 500;
+}
+
+.projectSelectRow {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 24px;
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 1px 6px rgba(25,118,210,0.07);
+	padding: 16px 20px;
+}
+
+.projectSelectRow label {
+	font-size: 1.08rem;
+	font-weight: 500;
+	color: #1976d2;
+}
+
+.projectSelectRow select {
+	font-size: 1rem;
+	padding: 7px 16px;
+	border-radius: 8px;
+	border: 1.5px solid #e0e7ef;
+	background: #f5faff;
+	color: #1976d2;
+	font-weight: 500;
+	outline: none;
+	transition: border 0.2s;
+}
+.projectSelectRow select:focus {
+	border: 1.5px solid #1976d2;
+}
+
+.calendarWrapper {
+	background: #fff;
+	border-radius: 18px;
+	box-shadow: 0 4px 24px rgba(25,118,210,0.10);
+	padding: 32px 18px 24px 18px;
+	margin-top: 8px;
+}
+
+/* react-calendar ana görünümünü modernleştir */
+
+.calendarWrapper .react-calendar {
+	border: none;
+	background: transparent;
+	font-family: inherit;
+	width: 100%;
+	box-shadow: none;
+}
+.calendarWrapper .react-calendar__navigation {
+	margin-bottom: 12px;
+	background: none;
+	border-radius: 12px;
+	padding: 0 2px;
+}
+.calendarWrapper .react-calendar__navigation button {
+	background: #f5faff;
+	color: #1976d2;
+	border: none;
+	border-radius: 8px;
+	font-size: 1.08rem;
+	font-weight: 600;
+	margin: 0 2px;
+	padding: 7px 14px;
+	transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+	box-shadow: 0 1px 4px rgba(25,118,210,0.06);
+}
+.calendarWrapper .react-calendar__navigation button:enabled:hover {
+	background: #7c4dff;
+	color: #fff;
+	box-shadow: 0 2px 8px rgba(25,118,210,0.12);
+}
+.calendarWrapper .react-calendar__month-view__weekdays {
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 1rem;
+	color: #7c4dff;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	background: none;
+	border-radius: 8px;
+}
+.calendarWrapper .react-calendar__month-view__weekdays__weekday {
+	padding: 8px 0 6px 0;
+}
+.calendarWrapper .react-calendar__tile {
+	background: #f5faff;
+	border-radius: 12px;
+	color: #1976d2;
+	font-weight: 500;
+	transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+	min-height: 56px;
+	position: relative;
+	border: none;
+	box-shadow: 0 1px 4px rgba(25,118,210,0.04);
+	margin: 2px;
+}
+.calendarWrapper .react-calendar__tile--active,
+.calendarWrapper .react-calendar__tile:focus {
+	background: #7c4dff;
+	color: #fff;
+	box-shadow: 0 2px 8px rgba(124,77,255,0.18);
+}
+.calendarWrapper .react-calendar__tile--now {
+	background: #e3f2fd;
+	color: #1976d2;
+	font-weight: 700;
+	border: 1.5px solid #7c4dff;
+}
+.calendarWrapper .react-calendar__tile:enabled:hover {
+	background: #bbdefb;
+	color: #1976d2;
+	box-shadow: 0 2px 8px rgba(25,118,210,0.10);
+}
+.calendarWrapper .react-calendar__month-view__days__day--neighboringMonth {
+	color: #bdbdbd;
+	background: transparent;
+	opacity: 0.7;
+}
+.calendarWrapper .react-calendar__tile--range {
+	background: #ede7f6;
+	color: #7c4dff;
+}
+.calendarWrapper .react-calendar__tile--rangeStart,
+.calendarWrapper .react-calendar__tile--rangeEnd {
+	background: #7c4dff;
+	color: #fff;
+}
+
+.taskList {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+.taskItem {
+	background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+	color: #fff;
+	border-radius: 7px;
+	font-size: 12px;
+	padding: 2px 8px;
+	margin-bottom: 0;
+	display: inline-block;
+	font-weight: 500;
+	box-shadow: 0 1px 4px rgba(25,118,210,0.10);
+	letter-spacing: 0.01em;
+}
