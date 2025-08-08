@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import stajokulu.mlipmp.business.abstracts.UserService;
 import stajokulu.mlipmp.entities.dto.user.*;
 
+
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -35,13 +36,15 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    //Burak (Değişiklik)
     @GetMapping("/getById/{id}")
-    public ResponseEntity<List<GetUserDto>> getById(@PathVariable UUID id) {
-        List<GetUserDto> user = userService.getById(id);
-        if (user.isEmpty()) {
+    public ResponseEntity<GetUserDto> getById(@PathVariable UUID id) {
+        try {
+            GetUserDto user = userService.getById(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/save")

@@ -1,3 +1,4 @@
+    
 package stajokulu.mlipmp.business.concretes;
 
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 @RequiredArgsConstructor
@@ -34,15 +37,45 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    //Burak
+
     @Override
-    public List<GetUserDto> getById(UUID id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            User foundUser = user.get();
-            return List.of(new GetUserDto(foundUser.getId(), foundUser.getName(), foundUser.getEmail(), foundUser.getRole()));
-        } else {
-            System.out.println("HATA: UserServiceImpl -> GetById");
-            throw new IllegalArgumentException("User not found with id: " + id);
+    public GetUserDto getById(UUID id) {
+        User foundUser = userRepository.findById(id)
+                .orElseThrow(() -> {
+                    System.out.println("HATA: UserServiceImpl -> GetById");
+                    return new IllegalArgumentException("User not found with id: " + id);
+                });
+        return new GetUserDto(foundUser.getId(), foundUser.getName(), foundUser.getEmail(), foundUser.getRole());
+    }
+
+    //Burak
+    @Override
+    public GetUserDto getUserByEmail(stajokulu.mlipmp.entities.dto.user.LoginDto loginDto) {
+        User user = userRepository.findByEmail(loginDto.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + loginDto.getEmail()));
+        String hashedInputPassword = hashPassword(loginDto.getPasswordHash());
+        if (!user.getPassword_hash().equals(hashedInputPassword)) {
+            System.out.println("HATA: UserServiceImpl -> getUserByEmail: Şifre yanlış");
+            throw new IllegalArgumentException("Invalid password");
+        }
+        return new GetUserDto(user.getId(), user.getName(), user.getEmail(), user.getRole());
+    }
+
+    // Şifreyi SHA-256 ile hash'ler (Burak Değişiklik)
+    private String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Hashing error", e);
         }
     }
 
@@ -62,7 +95,8 @@ public class UserServiceImpl implements UserService {
             User user = new User();
             user.setName(userSaveDto.getName());
             user.setEmail(userSaveDto.getEmail());
-            user.setPassword_hash(userSaveDto.getPassword());
+            // Şifreyi hash'le (Burak Değişiklik)
+            user.setPassword_hash(hashPassword(userSaveDto.getPassword()));
             user.setRole(userSaveDto.getRole());
 
             return userRepository.save(user);
@@ -104,4 +138,6 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
+    
 }

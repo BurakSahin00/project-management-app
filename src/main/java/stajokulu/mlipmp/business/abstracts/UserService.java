@@ -11,9 +11,9 @@ import java.util.UUID;
 public interface UserService {
 
     List<GetUserDto> getAll(); //DONE
-    List<GetUserDto> getById(UUID id); //DONE
+    GetUserDto getById(UUID id); //DONE
     User saveUser(UserDto userSaveDto); //DONE
     boolean deleteUser(UUID id); // DONE
     void updateUser(GetUserDto getUserDto); //DONE
-    //void getUserByEmail();
+    GetUserDto getUserByEmail(stajokulu.mlipmp.entities.dto.user.LoginDto loginDto);
 }
