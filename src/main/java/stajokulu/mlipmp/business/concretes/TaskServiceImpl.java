@@ -82,6 +82,7 @@ public class TaskServiceImpl implements TaskService {
             dto.setDescription(task.getDescription());
             dto.setStatus(task.getStatus());
             dto.setProjectId(task.getProject().getId());
+            dto.setDeadline(task.getDeadline()); //Burak
             // Diğer alanlar eklenebilir
             return dto;
         }).collect(Collectors.toList());
