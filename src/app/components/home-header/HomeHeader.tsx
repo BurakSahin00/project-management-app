@@ -53,7 +53,7 @@ const HomeHeader: React.FC = () => {
         ))}
       </div>
       <div className={styles.headerCenter}>
-        <img src="/next.svg" alt="Logo" className={styles.headerLogo} />
+        <img src="/mlipmp.jpg" alt="Logo" className={styles.headerLogo} />
       </div>
       <div className={styles.headerRight}>
         <Link href="/home/profile" style={{ textDecoration: 'none' }}>

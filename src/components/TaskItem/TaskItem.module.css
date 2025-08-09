@@ -1,0 +1,35 @@
+.taskItem {
+  background: linear-gradient(90deg, #e3f2fd 60%, #f5faff 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+  padding: 18px 16px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-left: 5px solid #1976d2;
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 0.18s, border-color 0.18s, background 0.18s;
+}
+.taskItem:focus, .taskItem:hover {
+  box-shadow: 0 4px 16px rgba(124,77,255,0.18);
+  border-left: 5px solid #001aff;
+  background: #ede7f6;
+}
+.highlighted {
+  border-left: 5px solid #001aff;
+  background: #ede7f6;
+}
+.title {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #1976d2;
+  margin-bottom: 2px;
+}
+.dates {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  font-size: 0.98rem;
+  color: #1976d2;
+}

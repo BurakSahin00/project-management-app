@@ -1,0 +1,25 @@
+.dropdownWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.label {
+  font-size: 1.08rem;
+  font-weight: 500;
+  color: #1976d2;
+}
+.select {
+  font-size: 1rem;
+  padding: 7px 16px;
+  border-radius: 8px;
+  border: 1.5px solid #e0e7ef;
+  background: #f5faff;
+  color: #1976d2;
+  font-weight: 500;
+  outline: none;
+  transition: border 0.2s;
+}
+.select:focus {
+  border: 1.5px solid #1976d2;
+}

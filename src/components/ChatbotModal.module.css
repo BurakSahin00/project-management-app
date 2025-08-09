@@ -1,0 +1,116 @@
+.chatbotButton {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 1000;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 2rem;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.18);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.chatbotButton:hover {
+  background: #1565c0;
+}
+.modalOverlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(25, 118, 210, 0.18);
+  width: 520px;
+  max-width: 98vw;
+  min-height: 420px;
+  max-height: 80vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.header {
+  background: #1976d2;
+  color: #fff;
+  padding: 12px 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.closeBtn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background: #f8fafd;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.botMsg {
+  align-self: flex-start;
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 8px 12px;
+  border-radius: 12px 12px 12px 4px;
+  max-width: 80%;
+  font-size: 0.98rem;
+}
+.userMsg {
+  align-self: flex-end;
+  background: #1976d2;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 12px 12px 4px 12px;
+  max-width: 80%;
+  font-size: 0.98rem;
+}
+.inputArea {
+  display: flex;
+  border-top: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  background: #fff;
+}
+.inputArea input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 8px;
+  border-radius: 8px;
+  background: #f3f6f9;
+  margin-right: 8px;
+}
+.inputArea button {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.inputArea button:hover {
+  background: #1565c0;
+}
